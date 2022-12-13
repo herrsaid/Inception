@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  nginx:
+    build: /home/salamane/Desktop/srcs/requirements/nginx
+    ports:
+      - "443:443"
+    volumes:
+     - wordpress:/var/www/html
+    networks:
+      - mynet
+    depends_on:
+      - wordpress
+  wordpress:
+    build: /home/salamane/Desktop/srcs/requirements/wordpress
+    volumes:
+     - wordpress:/var/www/html
+    networks:
+      - mynet
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+  mariadb:
+    build: /home/salamane/Desktop/srcs/requirements/mariadb
+    user: root
+    networks:
+      - mynet
+    env_file:
+      - .env
+volumes:
+    wordpress:
+      driver: local
+networks:
+  mynet:
+    driver: bridge
