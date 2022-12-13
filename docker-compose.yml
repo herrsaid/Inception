@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   nginx:
-    build: /home/salamane/Desktop/srcs/requirements/nginx
+    build: /home/salamane/Desktop/Inception/srcs/requirements/nginx
     ports:
       - "443:443"
     volumes:
@@ -11,7 +11,7 @@ services:
     depends_on:
       - wordpress
   wordpress:
-    build: /home/salamane/Desktop/srcs/requirements/wordpress
+    build: /home/salamane/Desktop/Inception/srcs/requirements/wordpress
     volumes:
      - wordpress:/var/www/html
     networks:
@@ -21,7 +21,7 @@ services:
     depends_on:
       - mariadb
   mariadb:
-    build: /home/salamane/Desktop/srcs/requirements/mariadb
+    build: /home/salamane/Desktop/Inception/srcs/requirements/mariadb
     user: root
     networks:
       - mynet
