@@ -22,11 +22,14 @@ services:
       - mariadb
   mariadb:
     build: srcs/requirements/mariadb
-    user: root
     networks:
       - mynet
     env_file:
       - .env
+  redis:
+    build: srcs/requirements/bonus/redis
+    networks:
+      - mynet
 volumes:
     wordpress:
       driver: local
