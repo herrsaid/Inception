@@ -30,6 +30,12 @@ services:
     build: srcs/requirements/bonus/redis
     networks:
       - mynet
+  adminer:
+    build: srcs/requirements/bonus/adminer
+    ports:
+      - 8000:8000
+    networks:
+      - mynet
 volumes:
     wordpress:
       driver: local

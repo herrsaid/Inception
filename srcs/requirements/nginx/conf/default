@@ -67,6 +67,10 @@ server {
                 # fastcgi_param PATH_INFO $fastcgi_path_info;
         }
 
+        location /adminer/ {
+                proxy_pass http://adminer:8000;
+        }
+
         # deny access to .htaccess files, if Apache's document root
         # concurs with nginx's one
         #
