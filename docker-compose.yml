@@ -14,6 +14,7 @@ services:
     build: srcs/requirements/wordpress
     volumes:
      - wordpress:/var/www/html
+    restart: always
     networks:
       - mynet
     env_file:
@@ -21,9 +22,15 @@ services:
     depends_on:
       - mariadb
   mariadb:
-    build: srcs/requirements/mariadb
+    build:
+      context: srcs/requirements/mariadb
+      args:
+        - DB_USER
+        - DB_NAME
+        - DB_PASSWORD
     networks:
       - mynet
+    restart: always
     env_file:
       - .env
   redis:
@@ -34,6 +41,22 @@ services:
     build: srcs/requirements/bonus/adminer
     ports:
       - 8000:8000
+    networks:
+      - mynet
+  portainer:
+    build: srcs/requirements/bonus/portainer
+    networks:
+      - mynet
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  ftp:
+    ports:
+      - 21:21
+    build: srcs/requirements/bonus/ftp
+    volumes:
+      - wordpress:/home/ftpuser/wordpress
     networks:
       - mynet
 volumes:

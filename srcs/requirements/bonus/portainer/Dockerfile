@@ -6,4 +6,3 @@ RUN apt update \
     && tar -xvzf portainer-2.16.2-linux-amd64.tar.gz
 
 CMD [ "./portainer/portainer" ]
-

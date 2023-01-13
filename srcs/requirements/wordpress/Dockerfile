@@ -10,10 +10,6 @@ RUN chmod +x wp-cli.phar \
     && mkdir /run/php
 RUN mv wp-cli.phar /usr/local/bin/wp \
 && rm /etc/php/7.3/fpm/pool.d/*
-
-RUN wp core download --allow-root \
-     && chown -R www-data:www-data /var/www/html 
-
 COPY conf/www.conf /etc/php/7.3/fpm/pool.d/
 COPY tools/script.sh /bin/
 
