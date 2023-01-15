@@ -1,6 +1,5 @@
 #!/bin/bash
-wp core download --allow-root \
-     && chown -R www-data:www-data /var/www/html
+wp core download --allow-root
 
 wp config create --dbhost=mariadb \
     --dbname=${DB_NAME} --dbuser=${DB_USER} \

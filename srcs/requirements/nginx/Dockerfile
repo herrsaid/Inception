@@ -5,14 +5,16 @@ RUN apt-get update \
     && echo "daemon off;" >> /etc/nginx/nginx.conf \
     && rm /etc/nginx/sites-enabled/*
 
-RUN openssl req -x509 -nodes -days 365 \
-    -subj "/C=CA/ST=QC/O=Company, Inc./CN=salamane.42.fr" \
-    -addext "subjectAltName=DNS:salamane.42.fr" \
-    -newkey rsa:2048 \
-    -keyout /etc/ssl/private/nginx-selfsigned.key \
-    -out /etc/ssl/certs/nginx-selfsigned.crt
+# RUN openssl req -x509 -nodes -days 365 \
+#     -subj "/C=CA/ST=QC/O=Company, Inc./CN=salamane.42.fr" \
+#     -addext "subjectAltName=DNS:salamane.42.fr" \
+#     -newkey rsa:2048 \
+#     -keyout /etc/ssl/private/nginx-selfsigned.key \
+#     -out /etc/ssl/certs/nginx-selfsigned.crt
 
 COPY ./conf/default /etc/nginx/sites-enabled/
+COPY ./tools/nginx-selfsigned.crt /etc/ssl/certs/nginx-selfsigned.crt
+COPY ./tools/nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key
 
 EXPOSE 443
 CMD ["nginx"]
