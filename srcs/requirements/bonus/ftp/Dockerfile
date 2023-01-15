@@ -2,7 +2,9 @@ FROM debian:buster
 
 RUN apt update \
     && apt install vsftpd ftp -y
-RUN useradd -m ftpuser && echo "ftpuser:ftpassword" | chpasswd \
+
+ARG FTP_PASS
+RUN useradd -m ftpuser && echo "ftpuser:${FTP_PASS}" | chpasswd \
     && echo ftpuser >> /etc/vsftpd.userlist && mkdir home/ftpuser/empty \
     && chown -R ftpuser:ftpuser /home/ftpuser
 

@@ -66,7 +66,10 @@ services:
   ftp:
     ports:
       - 21:21
-    build: ./requirements/bonus/ftp
+    build:
+      context: ./requirements/bonus/ftp
+      args:
+        - FTP_PASS
     volumes:
       - wordpress:/home/ftpuser/wordpress
     networks:
