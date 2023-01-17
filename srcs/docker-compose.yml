@@ -2,6 +2,7 @@ version: "3.9"
 services:
   nginx:
     build: ./requirements/nginx
+    image: nginx
     ports:
       - "443:443"
     volumes:
@@ -12,10 +13,12 @@ services:
       - .env
     depends_on:
       - wordpress
+    init: true
     container_name: nginx
     restart: always
   wordpress:
     build: ./requirements/wordpress
+    image: wordpress
     volumes:
      - wordpress:/var/www/html
     restart: always
@@ -23,10 +26,12 @@ services:
       - mynet
     env_file:
       - .env
+    init: true
     depends_on:
       - mariadb
     container_name: wordpress
   mariadb:
+    image: mariadb
     build:
       context: ./requirements/mariadb
       args:
@@ -34,6 +39,7 @@ services:
         - DB_NAME
         - DB_PASSWORD
         - DB_ROOT_PASSWORD
+    init: true
     networks:
       - mynet
     volumes:
@@ -44,28 +50,39 @@ services:
     container_name: mariadb
   redis:
     build: ./requirements/bonus/redis
+    image: redis
+    init: true
     networks:
       - mynet
+    container_name: redis
   adminer:
     build: ./requirements/bonus/adminer
+    image: adminer
     ports:
       - 8000:8000
     networks:
       - mynet
     restart: always
+    init: true
     container_name: adminer
   portainer:
     build: ./requirements/bonus/portainer
+    image: portainer
     networks:
       - mynet
     ports:
       - 9000:9000
+    container_name: portainer
+    init: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
     restart: always
-  ftp:
+  vsftpd:
     ports:
       - 21:21
+    init: true
+    image: vsftpd
     build:
       context: ./requirements/bonus/ftp
       args:
@@ -75,7 +92,7 @@ services:
     networks:
       - mynet
     restart: always
-    container_name: ftp
+    container_name: vsftpd
 volumes:
     wordpress:
       driver: local
@@ -89,6 +106,12 @@ volumes:
         type: none
         o: bind
         device: ${HOME}/data/mariadb
+    portainer:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: ${HOME}/data/portainer
 networks:
   mynet:
     driver: bridge
