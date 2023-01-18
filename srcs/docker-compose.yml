@@ -93,6 +93,15 @@ services:
       - mynet
     restart: always
     container_name: vsftpd
+  portfolio:
+    build: ./requirements/bonus/portfolio
+    image: portfolio
+    ports:
+      - 1337:80
+    networks:
+      - mynet
+    init: true
+    container_name: portfolio
 volumes:
     wordpress:
       driver: local
